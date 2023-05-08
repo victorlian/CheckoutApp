@@ -11,7 +11,9 @@ namespace CheckoutApp
         {
             lineItems = new List<LineItem>();
         }
-        public IList<LineItem> lineItems;
+        private IList<LineItem> lineItems;
+
+        public IList<LineItem> LineItems { get => lineItems; }
 
         public int Count ()
         {
