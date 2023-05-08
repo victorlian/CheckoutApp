@@ -28,5 +28,10 @@ namespace CheckoutApp
             Money other = (Money)obj;
             return this.Value == other.Value;
         }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
     }
 }
