@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CheckoutApp
 {
-    class Checkout
+    public class Checkout
     {
         
     }
