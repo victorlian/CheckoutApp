@@ -26,5 +26,25 @@ namespace TestCheckoutApp
 
             Assert.Equals(2, o.Count());
         }
+
+        public void TestOrderTotalValueSingleLineItem()
+        {
+            Order o = new Order();
+            LineItem l1 = new LineItem(p1);
+            o.AddLineItem(l1);
+
+            Assert.Equals(new Money(1.99), o.GetTotal());
+        }
+
+        public void TestOrderTotalValueMultipleLineItems()
+        {
+            Order o = new Order();
+            LineItem l1 = new LineItem(p1);
+            LineItem l2 = new LineItem(p2);
+            o.AddLineItem(l1);
+            o.AddLineItem(l2);
+
+            Assert.Equals(4.98, o.GetTotal());
+        }
     }
 }
