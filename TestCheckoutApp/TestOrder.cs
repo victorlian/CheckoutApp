@@ -24,7 +24,7 @@ namespace TestCheckoutApp
             o.AddLineItem(l1);
             o.AddLineItem(l2);
 
-            Assert.Equals(2, o.Count);
+            Assert.Equals(2, o.Count());
         }
     }
 }
