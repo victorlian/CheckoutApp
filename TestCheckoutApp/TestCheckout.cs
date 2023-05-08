@@ -11,7 +11,7 @@ namespace TestCheckoutApp
         {
             Checkout c = new Checkout();
             
-            Product item = new Product('p', 1.99);
+            Product item = new Product("p", new Money(1.99));
             c.ScanItem(item);
 
             Assert.IsNotNull(c.Order);
