@@ -4,7 +4,8 @@ using System.Text;
 
 namespace CheckoutApp
 {
-    class Order
+    public class Order
     {
+        public IList<LineItem> lineItems;
     }
 }

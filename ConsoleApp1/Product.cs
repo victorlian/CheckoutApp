@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CheckoutApp
 {
-    class Product
+    public class Product
     {
         public Product (string sku, Money price)
         {

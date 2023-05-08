@@ -4,12 +4,12 @@ using CheckoutApp;
 namespace TestCheckoutApp
 {
     [TestClass]
-    public class UnitTest1
+    public class TestMoney
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestAddition()
         {
-            Assert.IsTrue(true);
+            
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CheckoutApp
 {
-    class Money
+    public class Money
     {
         public decimal Value { get; set; }
     }

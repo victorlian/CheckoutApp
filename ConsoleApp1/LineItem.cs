@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CheckoutApp
 {
-    class LineItem
+    public class LineItem
     {
         public Product Product { get; set; }
 
