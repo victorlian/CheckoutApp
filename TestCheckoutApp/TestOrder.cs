@@ -24,7 +24,7 @@ namespace TestCheckoutApp
             o.AddLineItem(l1);
             o.AddLineItem(l2);
 
-            Assert.Equals(2, o.Count());
+            Assert.AreEqual(2, o.Count());
         }
 
         public void TestOrderTotalValueSingleLineItem()
@@ -33,7 +33,7 @@ namespace TestCheckoutApp
             LineItem l1 = new LineItem(p1);
             o.AddLineItem(l1);
 
-            Assert.Equals(new Money(1.99), o.GetTotal());
+            Assert.AreEqual(new Money(1.99), o.GetTotal());
         }
 
         public void TestOrderTotalValueMultipleLineItems()
@@ -44,7 +44,7 @@ namespace TestCheckoutApp
             o.AddLineItem(l1);
             o.AddLineItem(l2);
 
-            Assert.Equals(4.98, o.GetTotal());
+            Assert.AreEqual(4.98, o.GetTotal());
         }
     }
 }

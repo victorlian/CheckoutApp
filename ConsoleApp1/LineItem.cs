@@ -9,10 +9,11 @@ namespace CheckoutApp
         public LineItem (Product p)
         {
             Product = p;
+            PriceBeforeDiscount = p.Price;
         }
 
         public Product Product { get; set; }
 
-        public Money Discount { get; set; }
+        public Money PriceBeforeDiscount { get; set; }
     }
 }

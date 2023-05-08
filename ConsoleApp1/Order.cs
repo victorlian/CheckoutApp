@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace CheckoutApp
@@ -20,6 +21,11 @@ namespace CheckoutApp
         public void AddLineItem(LineItem l)
         {
             lineItems.Add(l);
+        }
+
+        public Money GetTotal()
+        {
+            return lineItems.Aggregate(new Money(0), (total, next) => total += next.PriceBeforeDiscount);
         }
     }
 }
