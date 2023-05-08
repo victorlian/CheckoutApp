@@ -19,8 +19,10 @@ namespace TestCheckoutApp
         public void TestOrderAddLineItems()
         {
             Order o = new Order();
-            LineItem lineItem = new LineItem(p1);
-            LineItem lineItem = new LineItem(p2);
+            LineItem l1 = new LineItem(p1);
+            LineItem l2 = new LineItem(p2);
+            o.AddLineItem(l1);
+            o.AddLineItem(l2);
 
             Assert.Equals(2, o.Count);
         }
