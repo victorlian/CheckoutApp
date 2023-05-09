@@ -20,14 +20,9 @@ namespace CheckoutApp
             return lineItems.Count;
         }
 
-        public void AddLineItem(LineItem l, AmountOffSpecial s = null)
+        public void AddLineItem(LineItem l)
         {
             lineItems.Add(l);
-
-            if (s != null)
-            {
-                s.ApplySpecial(l);
-            }
         }
 
         public Money GetTotal()

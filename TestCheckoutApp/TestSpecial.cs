@@ -8,14 +8,13 @@ namespace TestCheckoutApp
     public class TestSpecial
     {
         [TestMethod]
-        public void TestAmountOffSpecial()
+        public void TestAmountOffSpecialSingle()
         {
-            AmountOffSpecial s = new AmountOffSpecial(new Money(0.98));
-
             Product item = new Product("p", new Money(1.99));
+            ISpecial s = new AmountOffSpecial(new Money(0.98), item);
 
             Checkout c = new Checkout();
-            c.SetSpecial(s);
+            c.AddSpecial(s);
             c.ScanItem(item);
 
             Order o = c.Order;
