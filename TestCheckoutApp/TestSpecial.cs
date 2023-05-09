@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System;
 using CheckoutApp;
 
 namespace TestCheckoutApp
@@ -51,6 +52,24 @@ namespace TestCheckoutApp
 
             Order o = c.Order;
             Assert.AreEqual(new Money(PRODUCT_1_NEW_PRICE * 2 + 1.5), o.GetTotal());
+        }
+
+        [TestMethod]
+        public void TestPercentageOffSpecial()
+        {
+            Product percentageOffProduct = new Product("p3", new Money(3.99));
+            int percentageOff = 33;
+            double newPrice = Math.Round(3.99 * (100 - percentageOff) / 100, 2);
+            ISpecial s3 = new PercentageOffSpecial(percentageOff, percentageOffProduct);
+
+            Checkout c = new Checkout();
+            c.AddSpecial(amountOffSpecial1);
+            c.AddSpecial(s3);
+
+            c.ScanItem(percentageOffProduct);
+
+            Order o = c.Order;
+            Assert.AreEqual(new Money(newPrice, o.GetTotal());
         }
     }
 }
