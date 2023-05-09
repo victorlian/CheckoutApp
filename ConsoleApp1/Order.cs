@@ -20,14 +20,19 @@ namespace CheckoutApp
             return lineItems.Count;
         }
 
-        public void AddLineItem(LineItem l)
+        public void AddLineItem(LineItem l, AmountOffSpecial s = null)
         {
             lineItems.Add(l);
+
+            if (s != null)
+            {
+                s.ApplySpecial(l);
+            }
         }
 
         public Money GetTotal()
         {
-            return lineItems.Aggregate(new Money(0), (total, next) => total += next.PriceBeforeDiscount);
+            return lineItems.Aggregate(new Money(0), (total, next) => total += next.PriceAfterDiscount);
         }
     }
 }

@@ -10,12 +10,12 @@ namespace TestCheckoutApp
         [TestMethod]
         public void TestAmountOffSpecial()
         {
-            AmountOffSpecial s = new AmountOffSpecial(new Money(0.98);
+            AmountOffSpecial s = new AmountOffSpecial(new Money(0.98));
 
             Product item = new Product("p", new Money(1.99));
 
             Checkout c = new Checkout();
-            c.setSpecial(s)
+            c.SetSpecial(s);
             c.ScanItem(item);
 
             Order o = c.Order;

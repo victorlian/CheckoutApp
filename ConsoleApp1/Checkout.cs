@@ -8,6 +8,8 @@ namespace CheckoutApp
     {
         public Order Order { get; set; }
 
+        public AmountOffSpecial Special { get; set; }
+
         public void ScanItem (Product p)
         {
             if (Order == null)
@@ -15,7 +17,12 @@ namespace CheckoutApp
                 Order = new Order();
             }
 
-            Order.AddLineItem(new LineItem(p));
+            Order.AddLineItem(new LineItem(p), Special);
+        }
+
+        public void SetSpecial (AmountOffSpecial special)
+        {
+            Special = special;
         }
 
         public string Display ()

@@ -11,6 +11,16 @@ namespace CheckoutApp
             Value = value;
         }
 
+        public Money ()
+        {
+            Value = 0;
+        }
+
+        public Money (Money other)
+        {
+            Value = other.Value;
+        }
+
         public double Value { get; set; }
 
         public static Money operator +(Money a, Money b) => new Money(a.Value + b.Value);
