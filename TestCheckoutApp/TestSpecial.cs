@@ -7,18 +7,50 @@ namespace TestCheckoutApp
     [TestClass]
     public class TestSpecial
     {
-        [TestMethod]
-        public void TestAmountOffSpecialSingle()
-        {
-            Product item = new Product("p", new Money(1.99));
-            ISpecial s = new AmountOffSpecial(new Money(0.98), item);
+        const double PRODUCT_1_PRICE = 1.99;
+        const double PRODUCT_1_DISCOUNT = 0.99;
+        const double PRODUCT_1_NEW_PRICE = 1;
 
+        Product product1;
+        ISpecial amountOffSpecial1;
+
+        public TestSpecial() {
+            product1 = new Product("p", new Money(PRODUCT_1_PRICE));
+            amountOffSpecial1 = new AmountOffSpecial(new Money(PRODUCT_1_DISCOUNT), product1);
+        }
+
+        [TestMethod]
+        public void TestAmountOffSpecialSingleItem()
+        {
+            Product product2 = new Product("p2", new Money(2.00));
+            
             Checkout c = new Checkout();
-            c.AddSpecial(s);
-            c.ScanItem(item);
+            c.AddSpecial(amountOffSpecial1);
+            
+            c.ScanItem(product1);
+            c.ScanItem(product2);
+            c.ScanItem(product1);
 
             Order o = c.Order;
-            Assert.AreEqual(new Money(1.01), o.GetTotal());
+            Assert.AreEqual(new Money(PRODUCT_1_NEW_PRICE * 2 + 2), o.GetTotal());
+        }
+
+        [TestMethod]
+        public void TestAmountOffSpecialMultipleItems()
+        {
+            Product product2 = new Product("p2", new Money(2.00));
+            ISpecial s2 = new AmountOffSpecial(new Money(0.5), product2);
+
+            Checkout c = new Checkout();
+            c.AddSpecial(amountOffSpecial1);
+            c.AddSpecial(s2);
+
+            c.ScanItem(product1);
+            c.ScanItem(product2);
+            c.ScanItem(product1);
+
+            Order o = c.Order;
+            Assert.AreEqual(new Money(PRODUCT_1_NEW_PRICE * 2 + 1.5), o.GetTotal());
         }
     }
 }
