@@ -29,6 +29,7 @@ namespace TestCheckoutApp
         [DataRow(1.01, 50, 0.51)] // Round up
         [DataRow(1.99, 100, 0)]
         [DataRow(1.99, 0, 1.99)]
+        [DataTestMethod]
         public void TestPercentageOff(double original, int percentageOff, double result)
         {
             Money og = new Money(original);

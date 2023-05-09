@@ -27,6 +27,16 @@ namespace CheckoutApp
 
         public static Money operator -(Money a, Money b) => new Money(a.Value - b.Value);
 
+        public Money PercentageOff(int percentageOff)
+        {
+            if (percentageOff > 100 || percentageOff < 0)
+            {
+                throw new ArgumentOutOfRangeException("Expect percentage off between 0 and 100");
+            }
+
+            return new Money(Math.Round(Value * (100 - percentageOff) / 100, 2, MidpointRounding.AwayFromZero)); // Round up if value is 0.005
+        }
+
         public override bool Equals(object obj)
         {
             //Check for null and compare run-time types.
