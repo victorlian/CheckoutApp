@@ -12,6 +12,7 @@ namespace TestCheckoutApp
         const double PRODUCT_1_PRICE = 1.99;
         const double PRODUCT_1_DISCOUNT = 0.99;
         const double PRODUCT_1_NEW_PRICE = 1;
+        const string SPECIAL_1_NAME = "99 cents off P1";
 
         Product product1;
         ISpecial amountOffSpecial1;
@@ -19,7 +20,7 @@ namespace TestCheckoutApp
         public TestSpecial()
         {
             product1 = new Product("p", new Money(PRODUCT_1_PRICE));
-            amountOffSpecial1 = new AmountOffSpecial(new Money(PRODUCT_1_DISCOUNT), product1);
+            amountOffSpecial1 = new AmountOffSpecial(SPECIAL_1_NAME, new Money(PRODUCT_1_DISCOUNT), product1);
         }
 
         [TestMethod]
@@ -43,6 +44,7 @@ namespace TestCheckoutApp
             foreach (LineItem item in itemsWithP1) {
                 IList<ISpecial> specials = item.Specials;
                 Assert.IsTrue(specials.Contains(amountOffSpecial1));
+                Assert.AreEqual(SPECIAL_1_NAME, specials[0].Name);
             }
         }
 
@@ -50,7 +52,8 @@ namespace TestCheckoutApp
         public void TestAmountOffSpecialMultipleItems()
         {
             Product product2 = new Product("p2", new Money(2.00));
-            ISpecial s2 = new AmountOffSpecial(new Money(0.5), product2);
+            string s2Name = "50 cents off p2";
+            ISpecial s2 = new AmountOffSpecial(s2Name, new Money(0.5), product2);
 
             Checkout c = new Checkout();
             c.AddSpecial(amountOffSpecial1);
@@ -75,6 +78,7 @@ namespace TestCheckoutApp
                 else
                 {
                     Assert.IsTrue(specials.Contains(s2));
+                    Assert.AreEqual(s2Name, specials[0].Name)
                 }
             }
         }
@@ -85,7 +89,7 @@ namespace TestCheckoutApp
             Product percentageOffProduct = new Product("p3", new Money(3.99));
             int percentageOff = 33;
             double newPrice = Math.Round(3.99 * (100 - percentageOff) / 100, 2);
-            ISpecial s3 = new PercentageOffSpecial(percentageOff, percentageOffProduct);
+            ISpecial s3 = new PercentageOffSpecial("33% off p3", percentageOff, percentageOffProduct);
 
             Checkout c = new Checkout();
             c.AddSpecial(amountOffSpecial1);
