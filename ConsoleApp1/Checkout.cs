@@ -39,16 +39,21 @@ namespace CheckoutApp
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine(string.Format("{0, -12}{1, 6}", "SKU", "Price"));
-            sb.AppendLine("==============================");
+            sb.AppendLine(string.Format("{0, -40}{1, 9}", "SKU", "Price"));
+            sb.AppendLine("=======================================================");
 
             foreach (LineItem lineItem in Order.LineItems)
             {
-                sb.AppendLine(string.Format("{0, -12}{1, 6}", lineItem.Product.SKU, lineItem.PriceBeforeDiscount));
+                sb.AppendLine(string.Format("{0, -40}{1, 9}", lineItem.Product.SKU, " " + lineItem.PriceBeforeDiscount));
+
+                if (lineItem.Special != null)
+                {
+                    sb.AppendLine(string.Format("{0, -40}{1, 9}", ">>>" + lineItem.Special.Name, "-" + lineItem.Discount));
+                }
             }
 
-            sb.AppendLine("==============================");
-            sb.AppendLine(string.Format("{0, -12}{1, 6}", "Total", Order.GetTotal()));
+            sb.AppendLine("=======================================================");
+            sb.AppendLine(string.Format("{0, -40}{1, 9}", " Total", " " + Order.GetTotal()));
             return sb.ToString();
         }
     }

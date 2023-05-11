@@ -8,9 +8,14 @@ namespace CheckoutApp
         {
             Product p1 = new Product("p1", new Money(1.99));
             Product p2 = new Product("p2", new Money(2.99));
-            Product p3 = new Product("p3", new Money(3.99));
+            Product p3 = new Product("p3", new Money(119.99));
+
+            ISpecial s1 = new AmountOffSpecial("50 cents off p1", new Money(0.5), p1);
+            ISpecial s2 = new PercentageOffSpecial("20% off p2", 20, p2);
 
             Checkout c = new Checkout();
+            c.AddSpecial(s1);
+            c.AddSpecial(s2);
 
             c.ScanItem(p1);
             c.ScanItem(p2);
