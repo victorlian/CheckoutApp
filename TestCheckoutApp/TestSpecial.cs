@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 using CheckoutApp;
 
 namespace TestCheckoutApp
@@ -35,6 +36,13 @@ namespace TestCheckoutApp
 
             Order o = c.Order;
             Assert.AreEqual(new Money(PRODUCT_1_NEW_PRICE * 2 + 2), o.GetTotal());
+
+            // Make sure specials are recorded
+            IEnumerable<LineItem> itemsWithProduct1 = o.LineItems.Where(l => l.Product.Equals(product1));
+            foreach (LineItem item in itemsWithProduct1) {
+                IList<ISpecial> specials = item.Specials;
+                Assert.IsTrue(specials.Contains(amountOffSpecial1));
+            }
         }
 
         [TestMethod]
@@ -53,6 +61,21 @@ namespace TestCheckoutApp
 
             Order o = c.Order;
             Assert.AreEqual(new Money(PRODUCT_1_NEW_PRICE * 2 + 1.5), o.GetTotal());
+
+            // Make sure specials are recorded
+            foreach (LineItem item in o.LineItems)
+            {
+                IList<ISpecial> specials = item.Specials;
+
+                if (item.Product.Equals(product1))
+                {
+                    Assert.IsTrue(specials.Contains(amountOffSpecial1));
+                }
+                else
+                {
+                    Assert.IsTrue(specials.Contains(s2));
+                }
+            }
         }
 
         [TestMethod]
