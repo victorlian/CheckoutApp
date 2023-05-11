@@ -12,10 +12,9 @@ namespace CheckoutApp
             PriceBeforeDiscount = new Money(p.Price);
             Discount = new Money();
             PriceAfterDiscount = new Money(PriceBeforeDiscount);
-            Specials = new List<ISpecial>();
         }
 
-        public IList<ISpecial> Specials { get; }
+        public ISpecial Special { get; set; }
 
         public Product Product { get; set; }
 
@@ -24,10 +23,5 @@ namespace CheckoutApp
         public Money Discount { get; set; }
 
         public Money PriceAfterDiscount { get; set; }
-
-        public void AddSpecial (ISpecial special)
-        {
-            Specials.Add(special);
-        }
     }
 }

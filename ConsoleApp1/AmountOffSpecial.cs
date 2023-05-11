@@ -25,7 +25,7 @@ namespace CheckoutApp
             {
                 l.Discount += AmountOff;
                 l.PriceAfterDiscount -= AmountOff;
-                l.AddSpecial(this);
+                l.Special = this;
             }
         }
     }

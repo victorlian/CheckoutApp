@@ -38,13 +38,13 @@ namespace TestCheckoutApp
             Order o = c.Order;
             Assert.AreEqual(new Money(PRODUCT_1_NEW_PRICE * 2 + 2), o.GetTotal());
 
-            // Make sure specials are recorded
+            // Make sure special is recorded in lineitem
             IList<LineItem> itemsWithP1 = o.FindLineItemsWithProduct(product1);
             Assert.AreEqual(2, itemsWithP1.Count);
-            foreach (LineItem item in itemsWithP1) {
-                IList<ISpecial> specials = item.Specials;
-                Assert.IsTrue(specials.Contains(amountOffSpecial1));
-                Assert.AreEqual(SPECIAL_1_NAME, specials[0].Name);
+            foreach (LineItem item in itemsWithP1) {                
+                Assert.AreEqual(amountOffSpecial1, item.Special);
+                Assert.AreEqual(SPECIAL_1_NAME, item.Special.Name);
+                Assert.AreEqual(new Money(PRODUCT_1_DISCOUNT), item.Discount);
             }
         }
 
@@ -53,7 +53,8 @@ namespace TestCheckoutApp
         {
             Product product2 = new Product("p2", new Money(2.00));
             string s2Name = "50 cents off p2";
-            ISpecial s2 = new AmountOffSpecial(s2Name, new Money(0.5), product2);
+            double product2Discount = 0.5;
+            ISpecial s2 = new AmountOffSpecial(s2Name, new Money(product2Discount), product2);
 
             Checkout c = new Checkout();
             c.AddSpecial(amountOffSpecial1);
@@ -66,19 +67,19 @@ namespace TestCheckoutApp
             Order o = c.Order;
             Assert.AreEqual(new Money(PRODUCT_1_NEW_PRICE * 2 + 1.5), o.GetTotal());
 
-            // Make sure specials are recorded
+            // Make sure special is recorded in lineitem
             foreach (LineItem item in o.LineItems)
             {
-                IList<ISpecial> specials = item.Specials;
-
                 if (item.Product.Equals(product1))
                 {
-                    Assert.IsTrue(specials.Contains(amountOffSpecial1));
+                    Assert.AreEqual(amountOffSpecial1, item.Special);
+                    Assert.AreEqual(new Money(PRODUCT_1_DISCOUNT), item.Discount);
                 }
                 else
                 {
-                    Assert.IsTrue(specials.Contains(s2));
-                    Assert.AreEqual(s2Name, specials[0].Name);
+                    Assert.AreEqual(s2, item.Special);
+                    Assert.AreEqual(s2Name, item.Special.Name);
+                    Assert.AreEqual(new Money(product2Discount), item.Discount);
                 }
             }
         }
@@ -86,9 +87,13 @@ namespace TestCheckoutApp
         [TestMethod]
         public void TestPercentageOffSpecial()
         {
-            Product percentageOffProduct = new Product("p3", new Money(3.99));
             int percentageOff = 33;
+            double price = 3.99;
             double newPrice = Math.Round(3.99 * (100 - percentageOff) / 100, 2);
+            double discount = price - newPrice;
+
+            Product percentageOffProduct = new Product("p3", new Money(3.99));
+
             ISpecial s3 = new PercentageOffSpecial("33% off p3", percentageOff, percentageOffProduct);
 
             Checkout c = new Checkout();
@@ -99,6 +104,7 @@ namespace TestCheckoutApp
 
             Order o = c.Order;
             Assert.AreEqual(new Money(newPrice), o.GetTotal());
+            Assert.AreEqual(new Money(discount), o.LineItems[0].Discount);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace CheckoutApp
                 Money priceSaved = l.Product.Price - resultPrice;
                 l.Discount += priceSaved;
                 l.PriceAfterDiscount -= priceSaved;
-                l.AddSpecial(this);
+                l.Special = this;
             }
         }
     }
