@@ -11,7 +11,7 @@ namespace CheckoutApp
         {
             lineItems = new List<LineItem>();
         }
-        private IList<LineItem> lineItems;
+        private readonly IList<LineItem> lineItems;
 
         public IList<LineItem> LineItems { get => lineItems; }
 
@@ -28,6 +28,11 @@ namespace CheckoutApp
         public Money GetTotal()
         {
             return lineItems.Aggregate(new Money(0), (total, next) => total += next.PriceAfterDiscount);
+        }
+
+        public IList<LineItem> FindLineItemsWithProduct (Product p)
+        {
+            return lineItems.Where(l => l.Product.Equals(p)).ToList();
         }
     }
 }

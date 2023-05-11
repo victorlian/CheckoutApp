@@ -38,8 +38,9 @@ namespace TestCheckoutApp
             Assert.AreEqual(new Money(PRODUCT_1_NEW_PRICE * 2 + 2), o.GetTotal());
 
             // Make sure specials are recorded
-            IEnumerable<LineItem> itemsWithProduct1 = o.LineItems.Where(l => l.Product.Equals(product1));
-            foreach (LineItem item in itemsWithProduct1) {
+            IList<LineItem> itemsWithP1 = o.FindLineItemsWithProduct(product1);
+            Assert.AreEqual(2, itemsWithP1.Count);
+            foreach (LineItem item in itemsWithP1) {
                 IList<ISpecial> specials = item.Specials;
                 Assert.IsTrue(specials.Contains(amountOffSpecial1));
             }
