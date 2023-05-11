@@ -6,6 +6,8 @@ namespace CheckoutApp
 {
     public interface ISpecial
     {
+        public string Name { get; }
+
         public void ApplySpecial(LineItem l);
     }
 }

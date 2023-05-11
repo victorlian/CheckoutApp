@@ -78,7 +78,7 @@ namespace TestCheckoutApp
                 else
                 {
                     Assert.IsTrue(specials.Contains(s2));
-                    Assert.AreEqual(s2Name, specials[0].Name)
+                    Assert.AreEqual(s2Name, specials[0].Name);
                 }
             }
         }

@@ -6,11 +6,15 @@ namespace CheckoutApp
 {
     public class PercentageOffSpecial : ISpecial
     {
-        public PercentageOffSpecial (int percentageOff, Product product)
+        public PercentageOffSpecial (string name, int percentageOff, Product product)
         {
+            Name = name;
             PercentageOff = percentageOff;
             Product = product;
         }
+
+        public string Name { get; }
+
         public int PercentageOff { get; }
 
         public Product Product { get; set; }
