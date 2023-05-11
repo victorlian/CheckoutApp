@@ -38,16 +38,16 @@ namespace TestCheckoutApp
             Assert.AreEqual(result, res.Value);
         }
 
-        [DataRow(1.99, 1.99)]
-        [DataRow(1, 1.00)]
-        [DataRow(0.5, 0.50)]
-        [DataRow(0.600000000000000001, 0.60)]
-        [DataRow(0, 0.00)]
+        [DataRow(1.99, "$1.99")]
+        [DataRow(1, "$1.00")]
+        [DataRow(0.5, "$0.50")]
+        [DataRow(0.600000000000000001, "$0.60")]
+        [DataRow(0, "$0.00")]
         [DataTestMethod]
         public void TestMoneyFormat(double value, string expectedDisplay)
         {
             Money m = new Money(value);
-            string actualDisplay = m.ToFormattedString();
+            string actualDisplay = m.ToString();
 
             Assert.AreEqual(expectedDisplay, actualDisplay);
         }
