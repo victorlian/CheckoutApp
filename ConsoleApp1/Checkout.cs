@@ -25,7 +25,7 @@ namespace CheckoutApp
             LineItem l = new LineItem(p);
             foreach (ISpecial special in Specials)
             {
-                special.ApplySpecial(l);
+                special.ApplySpecial(Order, l);
             }
             Order.AddLineItem(l);
         }

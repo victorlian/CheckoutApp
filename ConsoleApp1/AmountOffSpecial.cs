@@ -19,13 +19,13 @@ namespace CheckoutApp
 
         public Product Product { get; set; }
 
-        public void ApplySpecial (LineItem l)
+        public void ApplySpecial(Order order, LineItem lineItem)
         {
-            if (l.Product == Product)
+            if (lineItem.Product == Product)
             {
-                l.Discount += AmountOff;
-                l.PriceAfterDiscount -= AmountOff;
-                l.Special = this;
+                lineItem.Discount += AmountOff;
+                lineItem.PriceAfterDiscount -= AmountOff;
+                lineItem.Special = this;
             }
         }
     }

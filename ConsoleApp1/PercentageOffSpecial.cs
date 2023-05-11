@@ -19,15 +19,15 @@ namespace CheckoutApp
 
         public Product Product { get; set; }
 
-        public void ApplySpecial (LineItem l)
+        public void ApplySpecial(Order order, LineItem lineItem)
         {
-            if (l.Product == Product)
+            if (lineItem.Product == Product)
             {
-                Money resultPrice = l.Product.Price.PercentageOff(PercentageOff);
-                Money priceSaved = l.Product.Price - resultPrice;
-                l.Discount += priceSaved;
-                l.PriceAfterDiscount -= priceSaved;
-                l.Special = this;
+                Money resultPrice = lineItem.Product.Price.PercentageOff(PercentageOff);
+                Money priceSaved = lineItem.Product.Price - resultPrice;
+                lineItem.Discount += priceSaved;
+                lineItem.PriceAfterDiscount -= priceSaved;
+                lineItem.Special = this;
             }
         }
     }

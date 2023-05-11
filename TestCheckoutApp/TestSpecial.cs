@@ -113,7 +113,7 @@ namespace TestCheckoutApp
             double price = 6.00;
             Product discountProduct = new Product("p4", new Money(9.99));
 
-            ISpecial s4 = new MultiBuySpecial("Buy two p4 for 10", 2, amountOff, discountProduct);
+            ISpecial s4 = new MultiBuySpecial("Buy two p4 for 10", 2, new Money(amountOff), discountProduct);
 
             Checkout c = new Checkout();
             c.AddSpecial(s4);

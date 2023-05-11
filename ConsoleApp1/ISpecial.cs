@@ -8,6 +8,6 @@ namespace CheckoutApp
     {
         public string Name { get; }
 
-        public void ApplySpecial(LineItem l);
+        public void ApplySpecial(Order order, LineItem lineItem);
     }
 }
