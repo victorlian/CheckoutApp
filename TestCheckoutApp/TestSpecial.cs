@@ -106,5 +106,54 @@ namespace TestCheckoutApp
             Assert.AreEqual(new Money(newPrice), o.GetTotal());
             Assert.AreEqual(new Money(discount), o.LineItems[0].Discount);
         }
+
+        public void TestMultiBuySpecial()
+        {
+            double amountOff = 2.00;
+            double price = 6.00;
+            Product discountProduct = new Product("p4", new Money(9.99));
+
+            ISpecial s4 = new MultiBuySpecial("Buy two p4 for 10", 2, amountOff, discountProduct);
+
+            Checkout c = new Checkout();
+            c.AddSpecial(s4);
+
+            // first buy
+            c.ScanItem(discountProduct);
+            Order o = c.Order;
+            Assert.AreEqual(new Money(price), o.GetTotal());
+            Assert.AreEqual(new Money(price), o.LineItems[0].PriceBeforeDiscount);
+            Assert.IsNull(o.LineItems[0].Special);
+
+            // buy something unrelated
+            c.ScanItem(product1);
+            Assert.AreEqual(new Money(price + PRODUCT_1_PRICE), o.GetTotal());
+            Assert.AreEqual(new Money(PRODUCT_1_PRICE), o.LineItems[1].PriceBeforeDiscount);
+
+            // second buy, apply discount
+            c.ScanItem(discountProduct);
+            Assert.AreEqual(new Money(price * 2 + PRODUCT_1_PRICE - amountOff), o.GetTotal());
+            Assert.AreEqual(new Money(price), o.LineItems[2].PriceBeforeDiscount);
+            Assert.AreEqual(new Money(amountOff), o.LineItems[2].Discount);
+            Assert.AreEqual(new Money(price - amountOff), o.LineItems[2].PriceAfterDiscount);
+            Assert.AreEqual(s4, o.LineItems[0].Special);
+            Assert.AreEqual(s4, o.LineItems[2].Special);
+
+            // third buy, no discount
+            c.ScanItem(discountProduct);
+            Assert.AreEqual(new Money(price * 3 + PRODUCT_1_PRICE - amountOff), o.GetTotal());
+            Assert.AreEqual(new Money(price), o.LineItems[3].PriceBeforeDiscount);
+            Assert.AreEqual(0, o.LineItems[3].Discount);
+            Assert.IsNull(o.LineItems[3].Special);
+
+            // forth buy, apply discount (twice)
+            c.ScanItem(discountProduct);
+            Assert.AreEqual(new Money(price * 4 + PRODUCT_1_PRICE - amountOff * 2), o.GetTotal());
+            Assert.AreEqual(new Money(price), o.LineItems[4].PriceBeforeDiscount);
+            Assert.AreEqual(new Money(amountOff), o.LineItems[4].Discount);
+            Assert.AreEqual(new Money(price - amountOff), o.LineItems[4].PriceAfterDiscount);
+            Assert.AreEqual(s4, o.LineItems[3].Special);
+            Assert.AreEqual(s4, o.LineItems[4].Special);
+        }
     }
 }
