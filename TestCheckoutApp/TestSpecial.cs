@@ -144,7 +144,7 @@ namespace TestCheckoutApp
             c.ScanItem(discountProduct);
             Assert.AreEqual(new Money(price * 3 + PRODUCT_1_PRICE - amountOff), o.GetTotal());
             Assert.AreEqual(new Money(price), o.LineItems[3].PriceBeforeDiscount);
-            Assert.AreEqual(0, o.LineItems[3].Discount);
+            Assert.AreEqual(new Money(0), o.LineItems[3].Discount);
             Assert.IsNull(o.LineItems[3].Special);
 
             // forth buy, apply discount (twice)

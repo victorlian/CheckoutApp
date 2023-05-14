@@ -27,13 +27,16 @@ namespace CheckoutApp
             IList<LineItem> matchingLineItems = order.LineItems
                                                     .Where(l => l.Product.Equals(Product) && l.Special == null)
                                                     .ToList();
+
             if (matchingLineItems.Count >= QuantityNeeded)
             {
                 matchingLineItems.Take(QuantityNeeded)
                     .ToList()
                     .ForEach(l => l.Special = this);
+
+                lineItem.Discount = AmountOff;
+                lineItem.PriceAfterDiscount = lineItem.PriceBeforeDiscount - AmountOff;
             }
-            lineItem.Discount = AmountOff;
         }
     }
 }

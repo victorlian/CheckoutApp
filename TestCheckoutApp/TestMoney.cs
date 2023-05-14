@@ -51,5 +51,19 @@ namespace TestCheckoutApp
 
             Assert.AreEqual(expectedDisplay, actualDisplay);
         }
+
+        [DataRow(1.99, 1.99, true)]
+        [DataRow(0, 0, true)]
+        [DataRow(0.999999999999, 1, true)]
+        [DataRow(17.99000000002, 17.99, true)]
+        [DataRow(16.595, 16.59, false)]
+        [DataTestMethod]
+        public void TestMoneyEquals(double value1, double value2, bool areEqual)
+        {
+            Money m1 = new Money(value1);
+            Money m2 = new Money(value2);
+
+            Assert.IsTrue(m1.Equals(m2) == areEqual);
+        }
     }
 }

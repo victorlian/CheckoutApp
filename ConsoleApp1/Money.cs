@@ -39,6 +39,7 @@ namespace CheckoutApp
 
         public override bool Equals(object obj)
         {
+            double acceptedVariance = 1E-9;
             //Check for null and compare run-time types.
             if ((obj == null) || !this.GetType().Equals(obj.GetType()))
             {
@@ -46,7 +47,7 @@ namespace CheckoutApp
             }
 
             Money other = (Money)obj;
-            return this.Value == other.Value;
+            return Math.Abs(this.Value - other.Value) < acceptedVariance;
         }
 
         public override int GetHashCode()
