@@ -1,6 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CheckoutApp;
-using System.Collections.Generic;
 
 namespace TestCheckoutApp
 {
