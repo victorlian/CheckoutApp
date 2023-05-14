@@ -107,11 +107,12 @@ namespace TestCheckoutApp
             Assert.AreEqual(new Money(discount), o.LineItems[0].Discount);
         }
 
+        [TestMethod]
         public void TestMultiBuySpecial()
         {
             double amountOff = 2.00;
             double price = 6.00;
-            Product discountProduct = new Product("p4", new Money(9.99));
+            Product discountProduct = new Product("p4", new Money(price));
 
             ISpecial s4 = new MultiBuySpecial("Buy two p4 for 10", 2, new Money(amountOff), discountProduct);
 
@@ -155,5 +156,20 @@ namespace TestCheckoutApp
             Assert.AreEqual(s4, o.LineItems[3].Special);
             Assert.AreEqual(s4, o.LineItems[4].Special);
         }
+
+        //public void TestMultipleSpecials()
+        //{
+        //    double amountOff = 2.00;
+        //    double price = 6.00;
+        //    Product discountProduct = new Product("p4", new Money(9.99));
+        //    ISpecial s4 = new MultiBuySpecial("Buy two p4 for 10", 2, new Money(amountOff), discountProduct);
+
+        //    double amountOff2 = 3.00;
+        //    double price2 = 7.00;
+        //    Product discountProduct2 = new Product("p5", new Money())
+
+        //    Checkout c = new Checkout();
+        //    c.AddSpecial(s4);
+        //}
     }
 }
