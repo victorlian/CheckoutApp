@@ -46,7 +46,7 @@ namespace CheckoutApp
             {
                 sb.AppendLine(string.Format("{0, -40}{1, 9}", lineItem.Product.SKU, " " + lineItem.PriceBeforeDiscount));
 
-                if (lineItem.Special != null)
+                if (lineItem.Special != null && !lineItem.Discount.Equals(new Money(0)))
                 {
                     sb.AppendLine(string.Format("{0, -40}{1, 9}", ">>>" + lineItem.Special.Name, "-" + lineItem.Discount));
                 }
