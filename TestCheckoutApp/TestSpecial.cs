@@ -112,8 +112,9 @@ namespace TestCheckoutApp
             double amountOff = 2.00;
             double price = 6.00;
             Product discountProduct = new Product("p4", new Money(price));
-
-            ISpecial s4 = new MultiBuySpecial("Buy two p4 for 10", 2, new Money(amountOff), discountProduct);
+            IList<Product> discountProducts = new List<Product>();
+            discountProducts.Add(discountProduct);
+            ISpecial s4 = new MultiBuySpecial("Buy two p4 for 10", 2, new Money(amountOff), discountProducts);
 
             Checkout c = new Checkout();
             c.AddSpecial(s4);
@@ -162,12 +163,16 @@ namespace TestCheckoutApp
             double amountOff = 2.00;
             double price = 6.00;
             Product discountProduct = new Product("p4", new Money(price));
-            ISpecial s4 = new MultiBuySpecial("Buy two p4 for 10", 2, new Money(amountOff), discountProduct);
+            IList<Product> discountProducts = new List<Product>();
+            discountProducts.Add(discountProduct);
+            ISpecial s4 = new MultiBuySpecial("Buy two p4 for 10", 2, new Money(amountOff), discountProducts);
 
             double amountOff2 = 3.00;
             double price2 = 7.00;
             Product discountProduct2 = new Product("p5", new Money(price2));
-            ISpecial s5 = new MultiBuySpecial("Buy three p5 for 18", 3, new Money(amountOff2), discountProduct2);
+            IList<Product> discountProducts2 = new List<Product>();
+            discountProducts2.Add(discountProduct2);
+            ISpecial s5 = new MultiBuySpecial("Buy three p5 for 18", 3, new Money(amountOff2), discountProducts2);
 
             Checkout c = new Checkout();
             c.AddSpecial(amountOffSpecial1);
@@ -204,6 +209,43 @@ namespace TestCheckoutApp
             foreach (LineItem discountLineItem in o.FindLineItemsWithProduct(discountProduct))
             {
                 Assert.AreEqual(s4, discountLineItem.Special);
+            }
+        }
+
+        [TestMethod]
+        public void TestMultipleSpecialsMultipleProducts()
+        {
+            double amountOff = 4.00;
+            double price = 3.00;
+            Product discountProduct1 = new Product("Bluebird Original", new Money(price));
+            Product discountProduct2 = new Product("Bluebird Vinegar", new Money(price));
+            IList<Product> discountedProduct = new List<Product>();
+            discountedProduct.Add(discountProduct1);
+            discountedProduct.Add(discountProduct2);
+            ISpecial s = new MultiBuySpecial("Buy three chips for 5", 2, new Money(amountOff), discountedProduct);
+
+            Checkout c = new Checkout();
+            c.AddSpecial(s);
+
+
+            // so far no discount should be applied
+            c.ScanItem(discountProduct1);
+            c.ScanItem(discountProduct1);
+            Order o = c.Order;
+
+            Assert.AreEqual(new Money(price * 2), o.GetTotal());
+            foreach (LineItem l in o.LineItems)
+            {
+                Assert.IsNull(l.Special);
+                Assert.AreEqual(new Money(0), l.Discount);
+            }
+
+            // Three multi-buy
+            c.ScanItem(discountProduct2);
+            Assert.AreEqual(new Money(price * 3 - amountOff), o.GetTotal());
+            foreach (LineItem discountedLineItem in o.LineItems)
+            {
+                Assert.AreEqual(s, discountedLineItem.Special);
             }
         }
     }
